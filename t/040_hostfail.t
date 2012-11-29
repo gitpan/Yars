@@ -6,21 +6,16 @@ use warnings;
 use Mojo::ByteStream qw/b/;
 use File::Basename qw/dirname/;
 use Test::More;
+use lib dirname(__FILE__);
+use tlib qw/sys/;
 use Yars;
 
 my @urls = ("http://localhost:9051","http://localhost:9052");
 
 $ENV{CLUSTERICIOUS_CONF_DIR} = dirname(__FILE__).'/conf3';
 $ENV{CLUSTERICIOUS_TEST_CONF_DIR} = $ENV{CLUSTERICIOUS_CONF_DIR};
-$ENV{PERL5LIB} = join ':', @INC;
-$ENV{PATH} = dirname(__FILE__)."/../blib/script:$ENV{PATH}";
 $ENV{LOG_LEVEL} = "WARN";
 my $root = $ENV{YARS_TMP_ROOT} = File::Temp->newdir(CLEANUP => 1);
-
-sub _sys {
-    my $cmd = shift;
-    system($cmd)==0 or die "Error running $cmd : $!";
-}
 
 sub _slurp {
     my $file = shift;
@@ -29,12 +24,12 @@ sub _slurp {
 }
 
 for my $which (qw/1 2/) {
-    my $pid_file = "/tmp/yars.test.${which}.hypnotoad.pid";
+    my $pid_file = "$root/yars.test.${which}.hypnotoad.pid";
     if (-e $pid_file && kill 0, _slurp($pid_file)) {
         diag "killing running yars $which";
-        _sys("LOG_FILE=/tmp/yars.test.$<.log YARS_WHICH=$which yars stop");
+        sys("LOG_FILE=$root/yars.test.$<.log YARS_WHICH=$which yars stop");
     }
-    _sys("LOG_FILE=/tmp/yars.test.$<.log YARS_WHICH=$which yars start");
+    sys("LOG_FILE=$root/yars.test.$<.log YARS_WHICH=$which yars start");
 }
 
 my $ua = Mojo::UserAgent->new();
@@ -62,7 +57,7 @@ for my $content (@contents) {
     push @locations, $location;
     if ($i==20) {
         # Make a host unreachable
-        _sys("YARS_WHICH=2 yars stop");
+        sys("YARS_WHICH=2 yars stop");
     }
 }
 
@@ -79,7 +74,7 @@ for my $url (@locations) {
 }
 
 # Now start it back up.
-_sys("YARS_WHICH=2 yars start");
+sys("YARS_WHICH=2 yars start");
 
 TODO: {
     local $TODO = "Run yars_fast_balance";
@@ -98,8 +93,8 @@ TODO: {
     }
 }
 
-_sys("YARS_WHICH=1 yars stop");
-_sys("YARS_WHICH=2 yars stop");
+sys("YARS_WHICH=1 yars stop");
+sys("YARS_WHICH=2 yars stop");
 
 done_testing();
 
