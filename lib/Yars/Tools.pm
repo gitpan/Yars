@@ -1,18 +1,9 @@
-=head1 NAME
-
-Yars::Tools -- various utility functions dealing with servers, hosts, etc
-
-=head1 DESCRIPTION
-
-Just some useful functions here.
-
-=head1 FUNCTIONS
-
-=over
-
-=cut
-
 package Yars::Tools;
+
+# ABSTRACT: various utility functions dealing with servers, hosts, etc
+our $VERSION = '0.78'; # VERSION
+
+
 use Clustericious::Config;
 use List::Util qw/shuffle/;
 use List::MoreUtils qw/uniq/;
@@ -38,11 +29,6 @@ our %DiskIsLocal; # Our disk roots (values are just 1)
 our %Servers;     # All servers
 our $StateFile;   # Name of file with disk states.
 
-=item refresh_config
-
-Refresh the configuration data cached in memory.
-
-=cut
 
 sub refresh_config {
  my $class = shift;
@@ -90,12 +76,6 @@ sub _dir_is_empty {
     return 1;
 }
 
-=item disk_for
-
-Given an md5 digest, calculate the root directory of this file.
-Undef is returned if this file does not belong on the current host.
-
-=cut
 
 sub disk_for {
     my $class = shift;
@@ -110,11 +90,6 @@ sub disk_for {
     return $Bucket2Root{$bucket};
 }
 
-=item local_buckets
-
-Get a hash from disk to list of buckets for this server.
-
-=cut
 
 sub local_buckets {
     shift->refresh_config unless keys %Bucket2Root;
@@ -149,13 +124,6 @@ sub _write_state {
     return 1;
 }
 
-=item disk_is_up
-
-Given a disk root, return true unless the disk is marked down.
-A disk is down if the state file indicates it, or if it exists
-but is unwriteable.
-
-=cut
 
 sub disk_is_up {
     my $class = shift;
@@ -165,21 +133,11 @@ sub disk_is_up {
     return 0;
 }
 
-=item disk_is_down
-
-Disk is not up.
-
-=cut
 
 sub disk_is_down {
     return not shift->disk_is_up(@_);
 }
 
-=item disk_is_local
-
-Return true iff the disk is on this server.
-
-=cut
 
 sub disk_is_local {
     my $class = shift;
@@ -187,11 +145,6 @@ sub disk_is_local {
     return $DiskIsLocal{$root};
 }
 
-=item server_is_up, server_is_down
-
-Check to see if a remote server is up or down.
-
-=cut
 
 our $UA;
 our %serverStatusCache;
@@ -236,11 +189,6 @@ sub _touch {
     return 1;
 }
 
-=item mark_disk_down, mark_disk_up
-
-Mark a disk as up or down.
-
-=cut
 
 sub mark_disk_down {
     my $class = shift;
@@ -267,11 +215,6 @@ sub mark_disk_up {
     return 0;
 }
 
-=item server_for
-
-Given an md5, return the url for the server for this file.
-
-=cut
 
 sub server_for {
     my $class = shift;
@@ -285,22 +228,11 @@ sub server_for {
     return $found;
 }
 
-=item bucket_map
-
-Return a map from bucket prefix to server url.
-
-=cut
 
 sub bucket_map {
     return \%Bucket2Url;
 }
 
-=item storage_path
-
-Calculate the directory of an md5 on disk.
-Optionally pass a second parameter to force it onto a particular disk.
-
-=cut
 
 sub storage_path {
     my $class = shift;
@@ -309,15 +241,6 @@ sub storage_path {
     return join "/", $root, ( grep length, split /(..)/, $digest );
 }
 
-=item remote_stashed_server
-
-Find a server which is stashing this file, if one exists.
-Parameters :
-    $c - controller
-    $filename - filename
-    $digest - digest
-
-=cut
 
 sub remote_stashed_server {
     my $class = shift;
@@ -338,16 +261,6 @@ sub remote_stashed_server {
     return '';
 }
 
-=item local_stashed_dir
-
-Find a local directory stashing this file, if one exists.
-Parameters :
-    $filename - filename
-    $digest - digest
-Returns :
-    The directory or false.
-
-=cut
 
 sub local_stashed_dir {
     my $class = shift;
@@ -360,11 +273,6 @@ sub local_stashed_dir {
     return '';
 }
 
-=item server_exists
-
-Does this server exist?
-
-=cut
 
 sub server_exists {
     my $class = shift;
@@ -372,43 +280,21 @@ sub server_exists {
     return exists($Servers{$server_url}) ? 1 : 0;
 }
 
-=item server_url
-
-Returns the url of the current server.
-
-=cut
 
 sub server_url {
     return $OurUrl;
 }
 
-=item disk_roots
-
-Return all the local directory roots, in a random order.
-
-=cut
 
 sub disk_roots {
     return keys %DiskIsLocal;
 }
 
-=item server_urls
-
-Return all the other urls, in a random order.
-
-=cut
 
 sub server_urls {
     return keys %Servers;
 }
 
-=item cleanup_tree
-
-Given a direcory, traverse upwards until encountering
-a local disk root or a non-empty directory, and remove
-all empty dirs.
-
-=cut
 
 sub cleanup_tree {
     my $class = shift;
@@ -420,11 +306,6 @@ sub cleanup_tree {
      }
 }
 
-=item count_files
-
-Count the number of files in a directory tree.
-
-=cut
 
 sub count_files {
     my $class = shift;
@@ -434,11 +315,6 @@ sub count_files {
     return scalar @list;
 }
 
-=item human_size
-
-Given a size, format it like df -kh
-
-=cut
 
 sub human_size {
     my $class = shift;
@@ -452,12 +328,6 @@ sub human_size {
     return sprintf( "%.0f%s", $val + 0.5, $unit );
 }
 
-=item content_is_same
-
-Given a filename and an Asset, return true iff the
-content is the same for both.
-
-=cut
 
 sub content_is_same {
     my $class = shift;
@@ -474,11 +344,6 @@ sub content_is_same {
     return $check;
 }
 
-=item hex2b64, b642hex
-
-Convert from hex to base 64.
-
-=cut
 
 sub hex2b64 {
     my $class = shift;
@@ -498,3 +363,141 @@ sub b642hex {
 
 1;
 
+__END__
+
+=pod
+
+=head1 NAME
+
+Yars::Tools - various utility functions dealing with servers, hosts, etc
+
+=head1 VERSION
+
+version 0.78
+
+=head1 DESCRIPTION
+
+Just some useful functions here.
+
+=head1 FUNCTIONS
+
+=head2 refresh_config
+
+Refresh the configuration data cached in memory.
+
+=head2 disk_for
+
+Given an md5 digest, calculate the root directory of this file.
+Undef is returned if this file does not belong on the current host.
+
+=head2 local_buckets
+
+Get a hash from disk to list of buckets for this server.
+
+=head2 disk_is_up
+
+Given a disk root, return true unless the disk is marked down.
+A disk is down if the state file indicates it, or if it exists
+but is unwriteable.
+
+=head2 disk_is_down
+
+Disk is not up.
+
+=head2 disk_is_local
+
+Return true iff the disk is on this server.
+
+=head2 server_is_up, server_is_down
+
+Check to see if a remote server is up or down.
+
+=head2 mark_disk_down, mark_disk_up
+
+Mark a disk as up or down.
+
+=head2 server_for
+
+Given an md5, return the url for the server for this file.
+
+=head2 bucket_map
+
+Return a map from bucket prefix to server url.
+
+=head2 storage_path
+
+Calculate the directory of an md5 on disk.
+Optionally pass a second parameter to force it onto a particular disk.
+
+=head2 remote_stashed_server
+
+Find a server which is stashing this file, if one exists.
+Parameters :
+    $c - controller
+    $filename - filename
+    $digest - digest
+
+=head2 local_stashed_dir
+
+Find a local directory stashing this file, if one exists.
+Parameters :
+    $filename - filename
+    $digest - digest
+Returns :
+    The directory or false.
+
+=head2 server_exists
+
+Does this server exist?
+
+=head2 server_url
+
+Returns the url of the current server.
+
+=head2 disk_roots
+
+Return all the local directory roots, in a random order.
+
+=head2 server_urls
+
+Return all the other urls, in a random order.
+
+=head2 cleanup_tree
+
+Given a direcory, traverse upwards until encountering
+a local disk root or a non-empty directory, and remove
+all empty dirs.
+
+=head2 count_files
+
+Count the number of files in a directory tree.
+
+=head2 human_size
+
+Given a size, format it like df -kh
+
+=head2 content_is_same
+
+Given a filename and an Asset, return true iff the
+content is the same for both.
+
+=head2 hex2b64, b642hex
+
+Convert from hex to base 64.
+
+=head1 SEE ALSO
+
+L<Yars>, L<Yars::Client>
+
+=head1 AUTHOR
+
+Graham Ollis <plicease@cpan.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2013 by NASA GSFC.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut

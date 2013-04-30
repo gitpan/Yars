@@ -1,8 +1,9 @@
-#!/usr/bin/env perl
-
 use strict;
 use warnings;
+use FindBin ();
+BEGIN { require "$FindBin::Bin/etc/setup_legacy.pl" }
 
+use File::HomeDir::Test;
 use File::Basename qw/dirname/;
 use Test::More;
 use Mojo::ByteStream qw/b/;

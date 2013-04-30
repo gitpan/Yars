@@ -1,12 +1,8 @@
 package Yars::Routes;
 
-=head1 NAME
+# ABSTRACT: set up the routes for Yars.
+our $VERSION = '0.78'; # VERSION
 
-Yars::Routes -- set up the routes for Yars.
-
-=head1 ROUTES
-
-=cut
 
 use strict;
 use warnings;
@@ -33,19 +29,9 @@ ladder sub {
  1;
 };
 
-=head2 GET /
-
-Get a welcome message.
-
-=cut
 
 get '/' => sub { shift->render_text("welcome to Yars") } => 'index';
 
-=head2 GET /file/#filename/:md5, GET /:md5/#filename
-
-Retrieve a file with the given name and md5.
-
-=cut
 
 get  '/file/#filename/:md5' => [ md5 => qr/[a-f0-9]{32}/ ] => \&_get;
 get  '/file/:md5/#filename' => [ md5 => qr/[a-f0-9]{32}/ ] => \&_get => "file";
@@ -162,11 +148,6 @@ sub _redirect_to_remote_stash {
     return 0;
 }
 
-=head2 PUT /file/#filename/#md5
-
-PUT a file with the given name and md5.
-
-=cut
 
 put '/file/#filename/:md5' => { md5 => 'calculate' } => sub {
     my $c        = shift;
@@ -370,11 +351,6 @@ sub _stash_remotely {
     return 0;
 }
 
-=head2 DELETE /file/#filename/:md5, /file/:md5/#filename
-
-Delete a file with the given name and md5.
-
-=cut
 
 del '/file/#filename/:md5' => [ md5 => qr/[a-f0-9]{32}/ ] => \&_del;
 del '/file/:md5/#filename' => [ md5 => qr/[a-f0-9]{32}/ ] => \&_del;
@@ -413,13 +389,6 @@ sub _del {
     }
 };
 
-=head2 GET /disk/usage
-
-Get a summary of the disk usage.
-
-Send the CGI parameters count=1 to also count the files.
-
-=cut
 
 get '/disk/usage' => sub {
     my $c = shift;
@@ -463,12 +432,6 @@ get '/disk/usage' => sub {
     return $c->render_json(\%all);
 };
 
-=head2 POST /disk/status
-
-Mark disks up or down.  Send the disk root and state (up or down)
-as JSON encoded in the body.
-
-=cut
 
 post '/disk/status' => sub {
     my $c = shift;
@@ -493,14 +456,6 @@ post '/disk/status' => sub {
     $c->render_text($success ? "ok" : "failed" );
 };
 
-=head2 POST /check/manifest
-
-Given JSON with 'manifest' which is a return-delimited string
-of filenames and md5s (like the output of md5sum), check each
-file for existence on the server (or proxy to the right
-server)
-
-=cut
 
 post '/check/manifest' => sub {
     my $c = shift;
@@ -580,11 +535,6 @@ post '/check/manifest' => sub {
     $c->render_json(\%ret);
 };
 
-=head2 GET /servers/status
-
-Get the status of all the disks on all the servers/
-
-=cut
 
 get '/servers/status' => sub {
     my $c = shift;
@@ -607,22 +557,12 @@ get '/servers/status' => sub {
     $c->render_json(\%all);
 };
 
-=head2 GET /bucket_map
-
-Get a mapping from buckets to hosts.
-
-=cut
 
 get '/bucket_map' => sub {
     my $c = shift;
     $c->render_json(Yars::Tools->bucket_map)
 };
 
-=head2 GET /bucket/usage
-
-Find the disk usage per bucket.
-
-=cut
 
 get '/bucket/usage' => sub {
     my $c = shift;
@@ -654,3 +594,80 @@ get '/bucket/usage' => sub {
 
 
 1;
+
+__END__
+
+=pod
+
+=head1 NAME
+
+Yars::Routes - set up the routes for Yars.
+
+=head1 VERSION
+
+version 0.78
+
+=head1 ROUTES
+
+=head2 GET /
+
+Get a welcome message.
+
+=head2 GET /file/#filename/:md5, GET /:md5/#filename
+
+Retrieve a file with the given name and md5.
+
+=head2 PUT /file/#filename/#md5
+
+PUT a file with the given name and md5.
+
+=head2 DELETE /file/#filename/:md5, /file/:md5/#filename
+
+Delete a file with the given name and md5.
+
+=head2 GET /disk/usage
+
+Get a summary of the disk usage.
+
+Send the CGI parameters count=1 to also count the files.
+
+=head2 POST /disk/status
+
+Mark disks up or down.  Send the disk root and state (up or down)
+as JSON encoded in the body.
+
+=head2 POST /check/manifest
+
+Given JSON with 'manifest' which is a return-delimited string
+of filenames and md5s (like the output of md5sum), check each
+file for existence on the server (or proxy to the right
+server)
+
+=head2 GET /servers/status
+
+Get the status of all the disks on all the servers/
+
+=head2 GET /bucket_map
+
+Get a mapping from buckets to hosts.
+
+=head2 GET /bucket/usage
+
+Find the disk usage per bucket.
+
+=head1 SEE ALSO
+
+L<Yars>, L<Yars::Client>
+
+=head1 AUTHOR
+
+Graham Ollis <plicease@cpan.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2013 by NASA GSFC.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut

@@ -1,32 +1,9 @@
 #!/usr/bin/perl
 
-=head1 NAME
+# PODNAME: yars_generate_diskmap
+# ABSTRACT: generate a mapping from servers + hosts to buckets for yars.
+our $VERSION = '0.78'; # VERSION
 
-yars_generate_diskmap -- generate a mapping from servers + hosts to buckets for yars.
-
-=head1 SYNOPSIS
-
-    yars_generate_diskmap <number of hex digits>
-    host1 /disk1
-    host1 /disk2
-    host2 /disk1
-    host2 /disk2
-
-    echo "host1 /disk/1" | yars_generate_diskmap 1
-
-=head1 DESCRIPTION
-
-Given a list of hosts and disks, distribute 16^n buckets onto the disks.
-
-=head1 EXAMPLES
-
-clad -a testarch df -kh|grep archive | awk '{print $1 " " $7}' |  ./yars_generate_diskmap 2
-
-=head1 SEE ALSO
-
-Clustericious::Admin
-
-=cut
 
 use strict;
 use warnings;
@@ -95,3 +72,49 @@ sub dense {
 
 1;
 
+__END__
+
+=pod
+
+=head1 NAME
+
+yars_generate_diskmap - generate a mapping from servers + hosts to buckets for yars.
+
+=head1 VERSION
+
+version 0.78
+
+=head1 SYNOPSIS
+
+    yars_generate_diskmap <number of hex digits>
+    host1 /disk1
+    host1 /disk2
+    host2 /disk1
+    host2 /disk2
+
+    echo "host1 /disk/1" | yars_generate_diskmap 1
+
+=head1 DESCRIPTION
+
+Given a list of hosts and disks, distribute 16^n buckets onto the disks.
+
+=head1 EXAMPLES
+
+clad -a testarch df -kh|grep archive | awk '{print $1 " " $7}' |  ./yars_generate_diskmap 2
+
+=head1 SEE ALSO
+
+Clustericious::Admin
+
+=head1 AUTHOR
+
+Graham Ollis <plicease@cpan.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2013 by NASA GSFC.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut
