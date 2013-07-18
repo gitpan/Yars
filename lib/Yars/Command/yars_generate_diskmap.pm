@@ -1,7 +1,8 @@
 package Yars::Command::yars_generate_diskmap;
 
+# PODNAME: yars_generate_diskmap
 # ABSTRACT: generate a mapping from servers + hosts to buckets for yars.
-our $VERSION = '0.86'; # VERSION
+our $VERSION = '0.87'; # VERSION
 
 
 use strict;
@@ -15,14 +16,14 @@ sub main {
     my $class = shift;
     local @ARGV = @_;
     my %servers;
-    my $port = 9001;
+    my $default_port = 9001;
     my $protocol = 'http';
     GetOptions(
-        'port|p=i'   => \$port,
+        'port|p=i'   => \$default_port,
         'protocol=s' => \$protocol,
         'help|h'     => sub { pod2usage({ -verbose => 2}) },
         'version'    => sub {
-            say 'ACPS::Release version ', ($ACPS::Release::VERSION // 'dev');
+            say 'Yars version ', ($Yars::VERSION // 'dev');
             exit 1;
         },
     ) || pod2usage(1);
@@ -31,7 +32,10 @@ sub main {
     while (<>) {
         chomp;
         my ($host,$disk) = split;
-        $host =~ tr/a-zA-Z0-9._//dc;
+        my $port;
+        $port = $1 if $host =~ s/:(\d+)$//;
+        $host =~ tr/a-zA-Z0-9.\-//dc;
+        $host = join ':', $host, $port if $port;
         die "could not parse line : $_" unless $host && $disk;
         $servers{$host}{$disk} = [];
         push @all, $servers{$host}{$disk};
@@ -48,7 +52,7 @@ sub main {
     say '---';
     say 'servers :';
     for my $host (sort keys %servers) {
-        say "- url : $protocol://$host:$port";
+        say "- url : $protocol://" . ($host =~ /:\d+$/ ? $host : join(':', $host, $default_port));
         say "  disks :";
         for my $root (sort keys %{ $servers{$host} }) {
             say "  - root : $root";
@@ -89,37 +93,14 @@ __END__
 
 =head1 NAME
 
-Yars::Command::yars_generate_diskmap - generate a mapping from servers + hosts to buckets for yars.
-
-=head1 VERSION
-
-version 0.86
+Yars::Command::yars_generate_diskmap - code for yars_generate_diskmap
 
 =head1 DESCRIPTION
 
-This module contains the machinery for the command line program
-L<yars_generate_diskmap>.
+Tis module contains the machinery for the command line program L<yars_generate_diskmap>
 
 =head1 SEE ALSO
 
-L<yars_generate_diskmap>
-
-=head1 AUTHOR
-
-original author: Marty Brandon
-
-current maintainer: Graham Ollis <plicease@cpan.org>
-
-contributors:
-
-Brian Duggan
-
-=head1 COPYRIGHT AND LICENSE
-
-This software is copyright (c) 2013 by NASA GSFC.
-
-This is free software; you can redistribute it and/or modify it under
-the same terms as the Perl 5 programming language system itself.
+L<yars_disk_scan>
 
 =cut
-

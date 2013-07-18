@@ -1,5 +1,17 @@
 Revision history for Yars
 
+0.87      2013-07-18 09:23:59 America/New_York
+  - promote to production
+
+0.86_02   2013-07-13 12:58:27 America/New_York
+  - basic use test for yars_fast_balance
+
+0.86_01   2013-07-10 22:15:35 America/New_York
+  - yars_generate_diskmap: dash character is legal for hostnames
+  - yars_generate_diskmap: ports other than 9001
+  - added test for yars_disk_scan
+  - add a sanity check: our url has to be in the server list somewhere.
+
 0.86      2013-07-10 17:01:59 America/New_York
   - added a test case for yars_generate_diskmap
   - documentation
