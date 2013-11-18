@@ -2,7 +2,7 @@ package Yars::Command::yars_generate_diskmap;
 
 # PODNAME: yars_generate_diskmap
 # ABSTRACT: generate a mapping from servers + hosts to buckets for yars.
-our $VERSION = '0.91_02'; # VERSION
+our $VERSION = '0.92'; # VERSION
 
 
 use strict;
@@ -87,8 +87,8 @@ sub dense {
 
 1;
 
-
 __END__
+
 =pod
 
 =head1 NAME

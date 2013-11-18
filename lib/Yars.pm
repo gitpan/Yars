@@ -11,7 +11,7 @@ use Log::Log4perl qw(:easy);
 use Number::Bytes::Human qw( format_bytes parse_bytes );
 
 # ABSTRACT: Yet Another RESTful-Archive Service
-our $VERSION = '0.91_02'; # VERSION
+our $VERSION = '0.92'; # VERSION
 
 
 has secret => rand;
@@ -140,7 +140,10 @@ CONF2
 1;
 
 __END__
+
 =pod
+
+=encoding UTF-8
 
 =head1 NAME
 
@@ -148,7 +151,7 @@ Yars - Yet Another RESTful-Archive Service
 
 =head1 VERSION
 
-version 0.91_02
+version 0.92
 
 =head1 DESCRIPTION
 
@@ -324,4 +327,3 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-
