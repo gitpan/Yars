@@ -2,6 +2,7 @@ package Yars;
 
 use strict;
 use warnings;
+use v5.10.1;
 use Mojo::Base 'Clustericious::App';
 use Yars::Routes;
 use Yars::Tools;
@@ -11,7 +12,7 @@ use Log::Log4perl qw(:easy);
 use Number::Bytes::Human qw( format_bytes parse_bytes );
 
 # ABSTRACT: Yet Another RESTful-Archive Service
-our $VERSION = '0.92'; # VERSION
+our $VERSION = '0.93'; # VERSION
 
 
 has secret => rand;
@@ -140,10 +141,7 @@ CONF2
 1;
 
 __END__
-
 =pod
-
-=encoding UTF-8
 
 =head1 NAME
 
@@ -151,7 +149,7 @@ Yars - Yet Another RESTful-Archive Service
 
 =head1 VERSION
 
-version 0.92
+version 0.93
 
 =head1 DESCRIPTION
 
@@ -327,3 +325,4 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
+

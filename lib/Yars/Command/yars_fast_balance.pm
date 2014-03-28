@@ -2,7 +2,7 @@ package Yars::Command::yars_fast_balance;
 
 # PODNAME: yars_fast_balance
 # ABSTRACT: Fix all files
-our $VERSION = '0.92'; # VERSION
+our $VERSION = '0.93'; # VERSION
 
 
 use strict;
@@ -137,7 +137,6 @@ sub main {
 1;
 
 __END__
-
 =pod
 
 =head1 NAME

@@ -2,7 +2,7 @@ package Yars::Command::yars_disk_scan;
 
 # PODNAME: yars_disk_scan
 # ABSTRACT: scan a disk for corruption and report corrupt files to stdout
-our $VERSION = '0.92'; # VERSION
+our $VERSION = '0.93'; # VERSION
 
 
 use strict;
@@ -63,7 +63,6 @@ sub main {
 1;
 
 __END__
-
 =pod
 
 =head1 NAME

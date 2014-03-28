@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-use 5.010000;
+use 5.010001;
 
 use ExtUtils::MakeMaker 6.30;
 
@@ -30,8 +30,6 @@ my %WriteMakefileArgs = (
     "Clustericious::Config" => "0.21",
     "Clustericious::Log" => "0.11",
     "Digest::file" => 0,
-    "Fcntl" => 0,
-    "File::Find::Rule" => 0,
     "File::HomeDir" => "0.91",
     "File::Path" => 0,
     "Filesys::Df" => 0,
@@ -43,11 +41,9 @@ my %WriteMakefileArgs = (
     "Log::Log4perl::CommandLine" => 0,
     "Mojolicious" => "4.00",
     "Number::Bytes::Human" => "0.09",
-    "Pod::Usage" => 0,
     "Smart::Comments" => 0,
     "Try::Tiny" => 0,
-    "Yars::Client" => "0.90",
-    "autodie" => 0
+    "Yars::Client" => "0.90"
   },
   "TEST_REQUIRES" => {
     "Capture::Tiny" => 0,
@@ -57,7 +53,7 @@ my %WriteMakefileArgs = (
     "Test::More" => 0,
     "YAML::XS" => 0
   },
-  "VERSION" => "0.92",
+  "VERSION" => "0.93",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -71,8 +67,6 @@ my %FallbackPrereqs = (
   "Clustericious::Config" => "0.21",
   "Clustericious::Log" => "0.11",
   "Digest::file" => 0,
-  "Fcntl" => 0,
-  "File::Find::Rule" => 0,
   "File::HomeDir" => "0.91",
   "File::Path" => 0,
   "Filesys::Df" => 0,
@@ -84,7 +78,6 @@ my %FallbackPrereqs = (
   "Log::Log4perl::CommandLine" => 0,
   "Mojolicious" => "4.00",
   "Number::Bytes::Human" => "0.09",
-  "Pod::Usage" => 0,
   "Smart::Comments" => 0,
   "Test::Clustericious::Cluster" => "0.08",
   "Test::Clustericious::Config" => 0,
@@ -92,8 +85,7 @@ my %FallbackPrereqs = (
   "Test::More" => 0,
   "Try::Tiny" => 0,
   "YAML::XS" => 0,
-  "Yars::Client" => "0.90",
-  "autodie" => 0
+  "Yars::Client" => "0.90"
 );
 
 

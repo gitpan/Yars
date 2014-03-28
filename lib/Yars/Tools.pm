@@ -25,7 +25,7 @@ use File::Spec;
 
 
 # ABSTRACT: various utility functions dealing with servers, hosts, etc
-our $VERSION = '0.92'; # VERSION
+our $VERSION = '0.93'; # VERSION
 
 
 sub new
@@ -427,11 +427,9 @@ sub b642hex {
 
 1;
 
+
 __END__
-
 =pod
-
-=encoding UTF-8
 
 =head1 NAME
 
@@ -439,7 +437,7 @@ Yars::Tools - various utility functions dealing with servers, hosts, etc
 
 =head1 VERSION
 
-version 0.92
+version 0.93
 
 =head1 DESCRIPTION
 
@@ -583,3 +581,4 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
+
