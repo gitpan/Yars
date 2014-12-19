@@ -1,7 +1,7 @@
 package Yars::Routes;
 
 # ABSTRACT: set up the routes for Yars.
-our $VERSION = '1.02'; # VERSION
+our $VERSION = '1.03'; # VERSION
 
 
 use strict;
@@ -18,6 +18,7 @@ use List::MoreUtils qw/uniq/;
 use Digest::file qw/digest_file_hex/;
 use File::Basename qw/basename/;
 use Mojo::JSON qw( encode_json );
+use Yars::Util qw( format_tx_error );
 
 BEGIN {
   if($^O eq 'MSWin32')
@@ -282,8 +283,7 @@ sub _proxy_to {
        $c->render(status => $tx->res->code, text => 'ok');
        return 1;
    }
-   my ($message, $code) = $tx->error;
-   ERROR "failed to proxy $filename to $url : $message".($code ? " code $code" : "");
+   ERROR "failed to proxy $filename to $url : " . format_tx_error($tx->error);
    return 0;
 }
 
@@ -388,9 +388,10 @@ sub _del {
     if (my $res = $tx->success) {
         return $c->render(status => 200, text => "ok");
     } else  {
-        my ($msg,$code) = $tx->error;
+        my $error = $tx->error;
+        my ($msg,$code) = ($error->{message}, $error->{code});
         return $c->render(status => $code, text => $msg) if $code;
-        return $c->render_exception("Error deleting from $server ".$tx->error);
+        return $c->render_exception("Error deleting from $server ".format_tx_error($tx->error));
     }
 };
 
@@ -450,7 +451,7 @@ post '/disk/status' => sub {
         }
         WARN "Sending ".$c->req->body;
         my $tx = $c->tools->_ua->post("$server/disk/status", $c->req->headers->to_hash, ''.$c->req->body );
-        return $c->render_text( $tx->success ? $tx->res->body : 'failed '.$tx->error );
+        return $c->render_text( $tx->success ? $tx->res->body : 'failed '.format_tx_error($tx->error) );
     }
     $c->tools->disk_is_local($root) or return $c->render_exception("Disk $root is not on ".$c->tools->server_url);
     my $success;
@@ -554,7 +555,7 @@ get '/servers/status' => sub {
         if (my $res = $tx->success) {
             $all{$server} = $res->json;
         } else {
-            WARN "Could not reach $server : ".$tx->error;
+            WARN "Could not reach $server : ".format_tx_error($tx->error);
             $all{$server} = "down";
         }
     }
@@ -607,7 +608,6 @@ get '/bucket/usage' => sub {
 
 
 1;
-
 __END__
 =pod
 
@@ -617,7 +617,7 @@ Yars::Routes - set up the routes for Yars.
 
 =head1 VERSION
 
-version 1.02
+version 1.03
 
 =head1 ROUTES
 

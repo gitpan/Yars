@@ -21,10 +21,11 @@ use File::HomeDir;
 use File::Spec;
 use Mojo::UserAgent;
 use File::Spec;
+use Yars::Util qw( format_tx_error );
 
 
 # ABSTRACT: various utility functions dealing with servers, hosts, etc
-our $VERSION = '1.02'; # VERSION
+our $VERSION = '1.03'; # VERSION
 
 
 sub new
@@ -231,7 +232,7 @@ sub server_is_up {
         TRACE "/status did not return version, got : ".Dumper($got);
         return ($self->{server_status_cache}->{$server_url}{result} = 0);
     }
-    TRACE "Server $server_url is not up : response was ".$tx->error;
+    TRACE "Server $server_url is not up : response was ".format_tx_error($tx->error);
     return ($self->{server_status_cache}->{$server_url}{result} = 0);
 }
 sub server_is_down {
@@ -425,8 +426,6 @@ sub b642hex {
 
 
 1;
-
-
 __END__
 =pod
 
@@ -436,7 +435,7 @@ Yars::Tools - various utility functions dealing with servers, hosts, etc
 
 =head1 VERSION
 
-version 1.02
+version 1.03
 
 =head1 DESCRIPTION
 

@@ -21,7 +21,8 @@
       },
       "configure" : {
          "requires" : {
-            "Module::Build" : "0.3601"
+            "Module::Build" : "0.3601",
+            "perl" : "5.010001"
          }
       },
       "runtime" : {
@@ -30,45 +31,57 @@
          },
          "requires" : {
             "Clustericious" : "0.9925",
+            "Clustericious::Client" : "0",
+            "Clustericious::Client::Command" : "0",
             "Clustericious::Commands" : "0",
             "Clustericious::Config" : "0.21",
             "Clustericious::Log" : "0.11",
+            "Exporter" : "0",
             "File::Find::Rule" : "0",
             "File::HomeDir" : "0.91",
             "Hash::MoreUtils" : "0",
+            "IO::Uncompress::Gunzip" : "0",
             "JSON::XS" : "0",
             "List::MoreUtils" : "0",
             "Log::Log4perl" : "0",
             "Log::Log4perl::CommandLine" : "0",
+            "Mojo::Asset::File" : "0",
+            "Mojo::URL" : "0",
             "Mojolicious" : "5.48",
             "Number::Bytes::Human" : "0.09",
             "Yars::Client" : "0.90",
-            "perl" : "v5.10.1"
+            "base" : "0",
+            "lib" : "0",
+            "perl" : "5.010001"
          }
       },
       "test" : {
+         "recommends" : {
+            "EV" : "0"
+         },
          "requires" : {
             "Capture::Tiny" : "0",
             "Test::Clustericious::Cluster" : "0.08",
             "Test::Clustericious::Config" : "0",
             "Test::Clustericious::Log" : "0",
-            "Test::More" : "0",
-            "YAML::XS" : "0"
+            "Test::More" : "0.94",
+            "YAML::XS" : "0",
+            "perl" : "5.010001"
          }
       }
    },
    "release_status" : "stable",
    "resources" : {
       "bugtracker" : {
-         "web" : "https://github.com/plicease/yars/issues"
+         "web" : "https://github.com/plicease/Yars/issues"
       },
-      "homepage" : "http://perl.wdlabs.com/Yars/",
+      "homepage" : "http://perl.wdlabs.com/Yars",
       "repository" : {
          "type" : "git",
-         "url" : "git://github.com/plicease/yars.git",
-         "web" : "https://github.com/plicease/yars"
+         "url" : "git://github.com/plicease/Yars.git",
+         "web" : "https://github.com/plicease/Yars"
       }
    },
-   "version" : "1.02"
+   "version" : "1.03"
 }
 

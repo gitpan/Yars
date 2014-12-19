@@ -10,14 +10,15 @@ my %module_build_args = (
     "Module::Build" => "0.3601"
   },
   "configure_requires" => {
-    "Module::Build" => "0.3601"
+    "Module::Build" => "0.3601",
+    "perl" => "5.010001"
   },
   "dist_abstract" => "Yet Another RESTful-Archive Service",
   "dist_author" => [
     "Graham Ollis <plicease\@cpan.org>"
   ],
   "dist_name" => "Yars",
-  "dist_version" => "1.02",
+  "dist_version" => "1.03",
   "license" => "perl",
   "module_name" => "Yars",
   "recommends" => {
@@ -26,23 +27,32 @@ my %module_build_args = (
   "recursive_test_files" => 1,
   "requires" => {
     "Clustericious" => "0.9925",
+    "Clustericious::Client" => 0,
+    "Clustericious::Client::Command" => 0,
     "Clustericious::Commands" => 0,
     "Clustericious::Config" => "0.21",
     "Clustericious::Log" => "0.11",
+    "Exporter" => 0,
     "File::Find::Rule" => 0,
     "File::HomeDir" => "0.91",
     "Hash::MoreUtils" => 0,
+    "IO::Uncompress::Gunzip" => 0,
     "JSON::XS" => 0,
     "List::MoreUtils" => 0,
     "Log::Log4perl" => 0,
     "Log::Log4perl::CommandLine" => 0,
+    "Mojo::Asset::File" => 0,
+    "Mojo::URL" => 0,
     "Mojolicious" => "5.48",
     "Number::Bytes::Human" => "0.09",
     "Yars::Client" => "0.90",
-    "perl" => "v5.10.1"
+    "base" => 0,
+    "lib" => 0,
+    "perl" => "5.010001"
   },
   "script_files" => [
     "bin/yars",
+    "bin/yarsclient",
     "bin/yars_fast_balance",
     "bin/yars_generate_diskmap",
     "bin/yars_disk_scan"
@@ -52,8 +62,9 @@ my %module_build_args = (
     "Test::Clustericious::Cluster" => "0.08",
     "Test::Clustericious::Config" => 0,
     "Test::Clustericious::Log" => 0,
-    "Test::More" => 0,
-    "YAML::XS" => 0
+    "Test::More" => "0.94",
+    "YAML::XS" => 0,
+    "perl" => "5.010001"
   }
 );
 
@@ -64,8 +75,9 @@ my %fallback_build_requires = (
   "Test::Clustericious::Cluster" => "0.08",
   "Test::Clustericious::Config" => 0,
   "Test::Clustericious::Log" => 0,
-  "Test::More" => 0,
-  "YAML::XS" => 0
+  "Test::More" => "0.94",
+  "YAML::XS" => 0,
+  "perl" => "5.010001"
 );
 
 
