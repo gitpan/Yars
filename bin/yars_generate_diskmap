@@ -17,7 +17,7 @@ yars_generate_diskmap - generate a mapping from servers + hosts to buckets for y
 
 =head1 VERSION
 
-version 1.03
+version 1.04
 
 =head1 SYNOPSIS
 

@@ -24,7 +24,7 @@ name: Yars
 recommends:
   EV: '0'
 requires:
-  Clustericious: '0.9925'
+  Clustericious: '0.9940'
   Clustericious::Client: '0'
   Clustericious::Client::Command: '0'
   Clustericious::Commands: '0'
@@ -39,16 +39,12 @@ requires:
   List::MoreUtils: '0'
   Log::Log4perl: '0'
   Log::Log4perl::CommandLine: '0'
-  Mojo::Asset::File: '0'
-  Mojo::URL: '0'
   Mojolicious: '5.48'
   Number::Bytes::Human: '0.09'
-  Yars::Client: '0.90'
   base: '0'
-  lib: '0'
   perl: '5.010001'
 resources:
   bugtracker: https://github.com/plicease/Yars/issues
   homepage: http://perl.wdlabs.com/Yars
   repository: git://github.com/plicease/Yars.git
-version: '1.03'
+version: '1.04'

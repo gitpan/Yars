@@ -12,7 +12,7 @@ use Log::Log4perl qw(:easy);
 use Number::Bytes::Human qw( format_bytes parse_bytes );
 
 # ABSTRACT: Yet Another RESTful-Archive Service
-our $VERSION = '1.03'; # VERSION
+our $VERSION = '1.04'; # VERSION
 
 
 has secret => rand;
@@ -149,7 +149,7 @@ Yars - Yet Another RESTful-Archive Service
 
 =head1 VERSION
 
-version 1.03
+version 1.04
 
 =head1 DESCRIPTION
 

@@ -1,3 +1,9 @@
+BEGIN {
+  unless(eval q{ use 5.010001; 1}) {
+    print "Perl 5.010001 or better required\n";
+    exit;
+  }
+}
 
 use strict;
 use warnings;
@@ -18,7 +24,7 @@ my %module_build_args = (
     "Graham Ollis <plicease\@cpan.org>"
   ],
   "dist_name" => "Yars",
-  "dist_version" => "1.03",
+  "dist_version" => "1.04",
   "license" => "perl",
   "module_name" => "Yars",
   "recommends" => {
@@ -26,7 +32,7 @@ my %module_build_args = (
   },
   "recursive_test_files" => 1,
   "requires" => {
-    "Clustericious" => "0.9925",
+    "Clustericious" => "0.9940",
     "Clustericious::Client" => 0,
     "Clustericious::Client::Command" => 0,
     "Clustericious::Commands" => 0,
@@ -41,13 +47,9 @@ my %module_build_args = (
     "List::MoreUtils" => 0,
     "Log::Log4perl" => 0,
     "Log::Log4perl::CommandLine" => 0,
-    "Mojo::Asset::File" => 0,
-    "Mojo::URL" => 0,
     "Mojolicious" => "5.48",
     "Number::Bytes::Human" => "0.09",
-    "Yars::Client" => "0.90",
     "base" => 0,
-    "lib" => 0,
     "perl" => "5.010001"
   },
   "script_files" => [
